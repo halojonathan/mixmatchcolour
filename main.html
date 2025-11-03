@@ -1,0 +1,1521 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIX & MATCH COLOUR</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/3.0.3/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+</head>
+
+<div class="logoRugonal">
+    <a href="https://www.rugonal.com/"></a>
+    <img src="logoRugonal.png">
+</div>
+<div class="bannerMix">
+        <h1>Mix and Match Colour</h1>
+</div>
+
+
+<body>
+    <div class="containerHalaman">
+        <div class="columnHasildanControl">
+        <div class="columnHasil">
+            <h3>Mix Colour</h3>
+            <div class="visual-output-sample">
+        
+        <canvas id="granule-canvas"></canvas>
+        <div id="canvas-placeholder" class="visual-placeholder-text">
+            Silakan pilih warna untuk melihat mix warna
+        </div>
+
+        <div class="zoom-controls-overlay">
+            <button onclick="zoomOut()">–</button>
+            <button onclick="zoomIn()">+</button>
+        </div>
+    </div>
+
+    
+        </div>
+    
+
+    <div class="columnControl">
+        <h3>Colour Palette</h3>
+
+        
+<div class="colorPaletteGrid">
+    
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #C5C5C5;">
+                <span class="amountNumber" id="count_rgn001">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn001')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn001')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Natural White</span>
+            <span class="colorCode">RGN 001</span>
+        </div>
+    </div>
+    
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #D5D5D5;">
+                <span class="amountNumber" id="count_rgn002">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn002')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn002')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Cream White</span>
+            <span class="colorCode">RGN 002</span>
+        </div>
+    </div>
+
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #FCD000;">
+                <span class="amountNumber" id="count_rgn003">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn003')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn003')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Medium Yellow</span>
+            <span class="colorCode">RGN 003</span>
+        </div>
+    </div>
+
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #DBC47B;">
+                <span class="amountNumber" id="count_rgn004">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn004')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn004')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Beige</span>
+            <span class="colorCode">RGN 004</span>
+        </div>
+    </div>
+    
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #E4B58E;">
+                <span class="amountNumber" id="count_rgn005">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn005')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn005')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Skin Tone</span>
+            <span class="colorCode">RGN 005</span>
+        </div>
+    </div>
+
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #9E6746;">
+                <span class="amountNumber" id="count_rgn006">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn006')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn006')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Ivory</span>
+            <span class="colorCode">RGN 006</span>
+        </div>
+    </div>
+    
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #503A30;">
+                <span class="amountNumber" id="count_rgn007">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn007')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn007')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Brick Brown</span>
+            <span class="colorCode">RGN 007</span>
+        </div>
+    </div>
+
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #8F4D3C;">
+                <span class="amountNumber" id="count_rgn008">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn008')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn008')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Coffee Brown</span>
+            <span class="colorCode">RGN 008</span>
+        </div>
+    </div>
+
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #E96C32;">
+                <span class="amountNumber" id="count_rgn009">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn009')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn009')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Bright Orange</span>
+            <span class="colorCode">RGN 009</span>
+        </div>
+    </div>
+    
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #CE343A;">
+                <span class="amountNumber" id="count_rgn010">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn010')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn010')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Tomato Red</span>
+            <span class="colorCode">RGN 010</span>
+        </div>
+    </div>
+
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #F8C3D2;">
+                <span class="amountNumber" id="count_rgn011">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn011')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn011')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Pastel Pink</span>
+            <span class="colorCode">RGN 011</span>
+        </div>
+    </div>
+
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #F0A0B0;">
+                <span class="amountNumber" id="count_rgn012">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn012')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn012')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Coral Pink</span>
+            <span class="colorCode">RGN 012</span>
+        </div>
+    </div>
+
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #800020;">
+                <span class="amountNumber" id="count_rgn013">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn013')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn013')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Maroon</span>
+            <span class="colorCode">RGN 013</span>
+        </div>
+    </div>
+
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #B0A0D9;">
+                <span class="amountNumber" id="count_rgn014">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn014')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn014')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Pastel Purple</span>
+            <span class="colorCode">RGN 014</span>
+        </div>
+    </div>
+
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #551A8B;">
+                <span class="amountNumber" id="count_rgn015">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn015')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn015')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Dark Purple</span>
+            <span class="colorCode">RGN 015</span>
+        </div>
+    </div>
+
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #A0B0D9;">
+                <span class="amountNumber" id="count_rgn016">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn016')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn016')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Pastel Blue</span>
+            <span class="colorCode">RGN 016</span>
+        </div>
+    </div>
+
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #87CEEB;">
+                <span class="amountNumber" id="count_rgn017">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn017')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn017')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Sky Blue</span>
+            <span class="colorCode">RGN 017</span>
+        </div>
+    </div>
+
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #00FFFF;">
+                <span class="amountNumber" id="count_rgn018">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn018')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn018')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Aqua</span>
+            <span class="colorCode">RGN 018</span>
+        </div>
+    </div>
+
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #808A8A;">
+                <span class="amountNumber" id="count_rgn019">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn019')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn019')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Greyish Green</span>
+            <span class="colorCode">RGN 019</span>
+        </div>
+    </div>
+
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #007FFF;">
+                <span class="amountNumber" id="count_rgn020">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn020')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn020')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Bright Blue</span>
+            <span class="colorCode">RGN 020</span>
+        </div>
+    </div>
+
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #000080;">
+                <span class="amountNumber" id="count_rgn021">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn021')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn021')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Navy</span>
+            <span class="colorCode">RGN 021</span>
+        </div>
+    </div>
+    
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #003366;">
+                <span class="amountNumber" id="count_rgn022">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn022')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn022')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Blackish Blue</span>
+            <span class="colorCode">RGN 022</span>
+        </div>
+    </div>
+
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #6699CC;">
+                <span class="amountNumber" id="count_rgn023">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn023')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn023')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Blue Grey</span>
+            <span class="colorCode">RGN 023</span>
+        </div>
+    </div>
+
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #CCCCFF;">
+                <span class="amountNumber" id="count_rgn024">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn024')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn024')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Lavender Blue</span>
+            <span class="colorCode">RGN 024</span>
+        </div>
+    </div>
+    
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #00BFFF;">
+                <span class="amountNumber" id="count_rgn025">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn025')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn025')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Lake Blue</span>
+            <span class="colorCode">RGN 025</span>
+        </div>
+    </div>
+
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #006400;">
+                <span class="amountNumber" id="count_rgn026">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn026')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn026')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Dark Green</span>
+            <span class="colorCode">RGN 026</span>
+        </div>
+    </div>
+
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #008080;">
+                <span class="amountNumber" id="count_rgn027">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn027')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn027')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Teal</span>
+            <span class="colorCode">RGN 027</span>
+        </div>
+    </div>
+    
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #FFFFE0;">
+                <span class="amountNumber" id="count_rgn028">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn028')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn028')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Light Yellow</span>
+            <span class="colorCode">RGN 028</span>
+        </div>
+    </div>
+
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #90EE90;">
+                <span class="amountNumber" id="count_rgn029">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn029')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn029')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Light Green</span>
+            <span class="colorCode">RGN 029</span>
+        </div>
+    </div>
+
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #7CFC00;">
+                <span class="amountNumber" id="count_rgn030">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn030')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn030')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Grass Green</span>
+            <span class="colorCode">RGN 030</span>
+        </div>
+    </div>
+    
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #004D40;">
+                <span class="amountNumber" id="count_rgn031">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn031')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn031')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Deep Green</span>
+            <span class="colorCode">RGN 031</span>
+        </div>
+    </div>
+
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #D3D3D3;">
+                <span class="amountNumber" id="count_rgn032">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn032')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn032')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Light Grey</span>
+            <span class="colorCode">RGN 032</span>
+        </div>
+    </div>
+
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #A9A9A9;">
+                <span class="amountNumber" id="count_rgn033">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn033')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn033')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Dark Grey</span>
+            <span class="colorCode">RGN 033</span>
+        </div>
+    </div>
+    
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #FFA500;">
+                <span class="amountNumber" id="count_rgn034">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn034')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn034')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Orange</span>
+            <span class="colorCode">RGN 034</span>
+        </div>
+    </div>
+
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #8BC34A;">
+                <span class="amountNumber" id="count_rgn035">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn035')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn035')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Leaf Green</span>
+            <span class="colorCode">RGN 035</span>
+        </div>
+    </div>
+
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #FFFF00;">
+                <span class="amountNumber" id="count_rgn036">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn036')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn036')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Bright Yellow</span>
+            <span class="colorCode">RGN 036</span>
+        </div>
+    </div>
+    
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #FFB6C1;">
+                <span class="amountNumber" id="count_rgn037">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn037')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn037')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Light Pink</span>
+            <span class="colorCode">RGN 037</span>
+        </div>
+    </div>
+
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #FF0000;">
+                <span class="amountNumber" id="count_rgn038">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn038')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn038')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Red</span>
+            <span class="colorCode">RGN 038</span>
+        </div>
+    </div>
+
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #008000;">
+                <span class="amountNumber" id="count_rgn039">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn039')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn039')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Standard Green</span>
+            <span class="colorCode">RGN 039</span>
+        </div>
+    </div>
+    
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #FF66CC;">
+                <span class="amountNumber" id="count_rgn040">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn040')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn040')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Pink Fanta</span>
+            <span class="colorCode">RGN 040</span>
+        </div>
+    </div>
+
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #008080;">
+                <span class="amountNumber" id="count_rgn041">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn041')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn041')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Bottle Green</span>
+            <span class="colorCode">RGN 041</span>
+        </div>
+    </div>
+
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #C0C0C0;">
+                <span class="amountNumber" id="count_rgn042">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn042')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn042')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Bright Grey</span>
+            <span class="colorCode">RGN 042</span>
+        </div>
+    </div>
+    
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #39FF14;">
+                <span class="amountNumber" id="count_rgn043">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn043')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn043')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Neon Green</span>
+            <span class="colorCode">RGN 043</span>
+        </div>
+    </div>
+
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #FF007F;">
+                <span class="amountNumber" id="count_rgn044">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn044')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn044')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Bright Pink</span>
+            <span class="colorCode">RGN 044</span>
+        </div>
+    </div>
+
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #FFDB58;">
+                <span class="amountNumber" id="count_rgn045">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn045')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn045')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Mustard Yellow</span>
+            <span class="colorCode">RGN 045</span>
+        </div>
+    </div>
+    
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #800080;">
+                <span class="amountNumber" id="count_rgn046">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn046')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn046')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Purple</span>
+            <span class="colorCode">RGN 046</span>
+        </div>
+    </div>
+
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #A52A2A;">
+                <span class="amountNumber" id="count_rgn047">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn047')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn047')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Brown</span>
+            <span class="colorCode">RGN 047</span>
+        </div>
+    </div>
+
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #00008B;">
+                <span class="amountNumber" id="count_rgn048">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn048')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn048')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Dark Blue</span>
+            <span class="colorCode">RGN 048</span>
+        </div>
+    </div>    
+
+
+    <div class="paletteItemFocus">
+        <div class="colorControls">
+            <div class="colorPreviewWithAmount" style="background-color: #000000;">
+                <span class="amountNumber" id="count_rgn049">0</span> 
+            </div>
+            <div class="controlButtons">
+                <button class="btnControlMinus" onclick="decrement('count_rgn049')">-</button>
+                <button class="btnControlPlus" onclick="increment('count_rgn049')">+</button>
+            </div>
+        </div>
+        <div class="colorTextInfo">
+            <span class="colorName">Black</span>
+            <span class="colorCode">RGN 049</span>
+        </div>
+    </div>    
+
+
+    </div>
+ <div class="control-actions">
+        <button id="reset-mix-btn" onclick="resetMix()">RESET MIX</button>
+    </div>
+    </div>
+</div>
+
+<div class="mix-results-list">
+    <h3>Current Mix</h3> 
+    
+    <div id="percentage-bar-horizontal">
+        <div class="bar-placeholder">Pilih warna untuk melihat mix bar.</div>
+    </div>
+    
+    <div id="mix-parameters-container">
+        <p>Pilih warna untuk melihat mix bar.</p>
+    </div>
+    
+    <div class="total-mix-summary">
+        <strong> <span id="total-amount-value"></span></strong>
+    </div>
+</div>
+
+<div class="project-details-form-wrapper">
+    <div class="project-details-card">
+        <h3>Project Details</h3>
+        
+        <form id="project-details-form">
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="project-name">Project Name</label>
+                    <input type="text" id="project-name" name="projectName" placeholder="Project Name">
+                </div>
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input type="text" id="location" name="location" placeholder="Location">
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="area">Area (m²)</label>
+                    <input type="number" id="area" name="area" placeholder="Area (m²)">
+                </div>
+                <div class="form-group">
+                    <label for="depth">Depth (mm)</label>
+                    <select id="depth" name="depth">
+                        <option value="" disabled selected>Select depth...</option>
+                        <option value="10">10 mm</option>
+                        <option value="15">15 mm</option>
+                        <option value="20">20 mm</option>
+                        <option value="25">25 mm</option>
+                        </select>
+                </div>
+            </div>
+            
+            <div class="form-group full-width">
+                <label for="notes">Notes</label>
+                <textarea id="notes" name="notes" rows="3" 
+                          placeholder="Additional project notes, specifications, or requirements..."></textarea>
+            </div>
+            
+            <button type="button" class="save-pdf-btn" onclick="saveProjectAsPDF()">
+                 Save as PDF
+            </button>
+            
+        </form>
+    </div>
+
+<section class="recommendation-section-wrapper">
+    <h2 class="recommendation-title">Recommendation Colour</h2>
+    
+    <div class="recommendation-card-grid">
+        
+        <div class="color-recommendation-card">
+            <div class="recommendation-visual">
+                <img src="pumpkin-orange.png" alt="Pumpkin Orange Granule Mix" class="visual-image">
+            </div>
+            <div class="recommendation-content">
+                <h4 class="recommendation-name">Pumpkin Orange</h4>
+                <p class="recommendation-description">Rich autumn-inspired orange perfect for seasonal themes and warm environments.</p>
+            </div>
+        </div>
+
+        <div class="color-recommendation-card">
+            <div class="recommendation-visual">
+                <img src="pumpkin-orange.png" alt="Pumpkin Orange Granule Mix" class="visual-image">
+            </div>
+            <div class="recommendation-content">
+                <h4 class="recommendation-name">Pumpkin Orange</h4>
+                <p class="recommendation-description">Rich autumn-inspired orange perfect for seasonal themes and warm environments.</p>
+            </div>
+        </div>
+
+        <div class="color-recommendation-card">
+            <div class="recommendation-visual">
+                <img src="pumpkin-orange.png" alt="Pumpkin Orange Granule Mix" class="visual-image">
+            </div>
+            <div class="recommendation-content">
+                <h4 class="recommendation-name">Pumpkin Orange</h4>
+                <p class="recommendation-description">Rich autumn-inspired orange perfect for seasonal themes and warm environments.</p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+
+</div>
+
+
+
+<script>
+    
+    const RUGONAL_LOGO_URL = 'logoRugonal.png';
+const watermarkImage = new Image(); 
+watermarkImage.src = RUGONAL_LOGO_URL;
+
+function drawWatermark(ctx, width, height) {
+    // Pastikan gambar sudah dimuat
+    if (!watermarkImage.complete) {
+        console.warn("Watermark logo not fully loaded.");
+        return; 
+    }
+
+    const numRepeats = 3; // Jumlah pengulangan vertikal
+    const logoBaseWidth = 300; // Lebar dasar yang diinginkan (px)
+
+    
+    const ratio = watermarkImage.naturalHeight / watermarkImage.naturalWidth;
+    const logoH = logoBaseWidth * ratio; // Hasilnya sekitar 44.44px
+    // Hitung Opasitas (Gunakan Global Alpha)
+    ctx.globalAlpha = 0.8; // Atur opasitas menjadi 15% (transparan)
+    
+    const logoW = logoBaseWidth; 
+    
+    const startY = height * 0.10; // Mulai di 15% dari atas
+    const spacing = height * 0.30; // Jarak antar logo (30% dari tinggi)
+    
+    ctx.save(); // Simpan state canvas
+
+    // Loop untuk 3 Logo
+    for (let i = 0; i < numRepeats; i++) {
+        const x = (width / 2) - (logoW / 2); // Rata tengah horizontal
+        const y = startY + (i * spacing);
+        
+        // Menggambar gambar logo
+        ctx.drawImage(watermarkImage, x, y, logoW, logoH);
+    }
+    
+    ctx.restore(); // Kembalikan state canvas (termasuk opacity)
+    ctx.globalAlpha = 1.0; // Reset opacity ke normal setelah menggambar watermark
+}
+
+    const patternImage = new Image(); // Deklarasikan di sini
+patternImage.src = 'pattern.png';
+    
+    let zoomLevel = 1.0; 
+const ZOOM_FACTOR = 0.1; // Seberapa besar zoom berubah
+let viewOffsetX = 0; // Posisi X pusat pandangan (untuk Pan)
+let viewOffsetY = 0; // Posisi Y pusat pandangan (untuk Pan)
+    const NUM_POINTS = 50000; // Jumlah total "biji" yang akan digambar
+    const CANVAS_ID = 'granule-canvas';
+
+    // --- FUNGSI UTAMA UNTUK MENGGAMBAR BUTIRAN 2D ---
+    function drawGranulesCanvas(mixData, totalAmount) {
+       const canvas = document.getElementById(CANVAS_ID);
+        const ctx = canvas.getContext('2d');
+
+        const placeholder = document.getElementById('canvas-placeholder');
+        
+        // KOREKSI UTAMA: Setel dimensi piksel internal Canvas
+        // Ambil lebar dan tinggi yang dihitung oleh CSS
+        canvas.width = canvas.clientWidth; 
+        canvas.height = canvas.clientHeight;
+        
+        const width = canvas.width;
+        const height = canvas.height;
+        
+        // Bersihkan canvas
+        ctx.fillStyle = '#0000';
+        ctx.fillRect(0, 0, width, height);
+
+        if (totalAmount === 0) {
+            ctx.fillStyle = '#f0f0f0';
+        ctx.fillRect(0, 0, width, height);
+        
+        if (placeholder) {
+            placeholder.style.display = 'flex'; // Tampilkan pesan
+        }
+            return;
+        }
+
+        if (placeholder) {
+        placeholder.style.display = 'none'; 
+    }
+
+    ctx.translate(width / 2, height / 2);
+    
+    // 2. Terapkan skala zoom
+    ctx.scale(zoomLevel, zoomLevel);
+    
+    // 3. Pindahkan pusat koordinat kembali
+    ctx.translate(-width / 2, -height / 2);
+
+    // [Isi Latar Belakang]
+    ctx.fillStyle = mixData[0].hex; 
+    ctx.fillRect(0, 0, width, height);
+
+    ctx.fillStyle = mixData[0].hex; // Ambil warna pertama sebagai latar belakang dominan
+    ctx.fillRect(0, 0, width, height);
+
+
+        // 1. Siapkan Array Probabilitas
+        // Kita membuat array yang berisi daftar warna yang akan dipilih secara acak.
+        let probabilityArray = [];
+        mixData.forEach(data => {
+            // Hitung persentase dan konversi ke jumlah titik (agar mudah di loop)
+            const count = Math.round((data.amount / totalAmount) * NUM_POINTS);
+            for (let i = 0; i < count; i++) {
+                probabilityArray.push(data.hex);
+            }
+        });
+        
+        // Kocok array agar warna tersebar acak (simulasi pencampuran)
+        probabilityArray.sort(() => Math.random() - 0.5);
+
+        // 2. Gambar Ribuan "Biji" (Granule)
+        // --- DI DALAM FUNGSI drawGranulesCanvas(mixData, totalAmount) ---
+
+// ... (Kode untuk setup Canvas dan penentuan totalAmount tetap sama) ...
+
+        // 2. Gambar Ribuan "Biji" (Poligon Acak)
+        probabilityArray.forEach(hexColor => {
+            const baseHex = hexColor.includes('rgb') ? hexColor : hexColor.trim();
+            
+            const x = Math.random() * width;
+            const y = Math.random() * height;
+            
+            const radius = 2 + Math.random() * 1.5; // Radius dasar antara 2px hingga 3.5px
+            
+            // KUNCI BENTUK ACAK
+            const sides = 4 + Math.floor(Math.random() * 4); // Jumlah sisi acak (4 hingga 7 sisi)
+            const wobbleFactor = 0.5 + Math.random() * 0.5; // Faktor goyangan (0.5 hingga 1.0)
+
+            // --- Lapisan Warna Dasar (POLIGON TUNGGAL) ---
+            
+            // Setel warna dan gambar poligon
+            ctx.fillStyle = baseHex; 
+            
+            // Panggil fungsi gambar poligon
+            drawRandomPolygon(ctx, x, y, radius, sides, wobbleFactor); 
+        });
+
+        if (totalAmount > 0) {
+            drawWatermark(ctx, width, height);
+        }
+
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+    }
+    
+// ... (Sisa kode updateMix, inc, dec, dll.) ...);
+
+        if (totalAmount > 0) {
+    drawWatermark(ctx, width, height);
+}
+
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+    
+    // --- FUNGSI PEMBANTU UNTUK MENGGAMBAR POLIGON ACAK ---
+function drawRandomPolygon(ctx, x, y, radius, sides, wobbleFactor) {
+    ctx.beginPath();
+    
+    // Iterasi setiap sisi poligon
+    for (let i = 0; i < sides; i++) {
+        // Sudut normal
+        const angle = (Math.PI * 2 / sides) * i;
+        
+        // Tambahkan goyangan acak (wobble) pada radius agar bentuknya tidak beraturan
+        const wobble = (Math.random() - 0.5) * wobbleFactor * radius; 
+        const r = radius + wobble; 
+        
+        // Hitung koordinat (x, y) baru untuk setiap titik sudut
+        const px = x + r * Math.cos(angle);
+        const py = y + r * Math.sin(angle);
+
+        if (i === 0) {
+            ctx.moveTo(px, py); // Mulai bentuk
+        } else {
+            ctx.lineTo(px, py); // Gambar garis ke titik berikutnya
+        }
+    }
+    ctx.closePath();
+    ctx.fill();
+}
+    
+    // --- FUNGSI updateMix() YANG DIMODIFIKASI ---
+    function updateMix() {
+        const itemElements = document.querySelectorAll('.paletteItemFocus');
+        let totalAmount = 0;
+        let mixData = [];
+
+        itemElements.forEach(item => {
+            const amountElement = item.querySelector('.amountNumber');
+            const amount = parseInt(amountElement.textContent);
+            
+            const colorName = item.querySelector('.colorName').textContent;
+            const colorCode = item.querySelector('.colorCode').textContent;
+            const colorBlock = item.querySelector('.colorPreviewWithAmount');
+            const hexColor = colorBlock.style.backgroundColor; 
+
+            if (amount > 0) {
+                totalAmount += amount;
+                mixData.push({
+                    name: colorName,
+                    code: colorCode,
+                    amount: amount,
+                    hex: hexColor
+                });
+            }
+        });
+
+        // PENTING: Panggil fungsi menggambar 2D di sini
+        drawGranulesCanvas(mixData, totalAmount);
+        
+      
+        
+        const totalAmountDisplay = document.getElementById('total-amount-value');
+        const detailContainer = document.getElementById('mix-parameters-container');
+        const barContainer = document.getElementById('percentage-bar-horizontal');
+        
+        totalAmountDisplay.textContent = totalAmount;
+        detailContainer.innerHTML = '';
+        barContainer.innerHTML = '';
+
+        if (totalAmount > 0) {
+            
+            let barHTML = '';
+            
+            mixData.forEach(data => {
+                const percentage = (data.amount / totalAmount) * 100;
+                const roundedPercentage = percentage.toFixed(0); 
+                
+                // --- A. Bangun Bilah Horizontal ---
+                barHTML += `
+                    <div class="bar-segment" style="width: ${percentage}%; background-color: ${data.hex};">
+                        <span>${data.name}&nbsp;${roundedPercentage}%</span> 
+                    </div>
+                `;
+
+                // --- B. Bangun Daftar Detail Item ---
+                const resultItem = document.createElement('div');
+                resultItem.className = 'mix-result-item detailed-item';
+                
+                resultItem.innerHTML = `
+                    <span class="mix-swatch-detail" style="background-color: ${data.hex};"></span>
+                    <span class="mix-name-detail">${data.name} (${data.code}): ${roundedPercentage}% (${data.amount} parts)</span>
+                `;
+                detailContainer.appendChild(resultItem);
+            });
+            
+            barContainer.innerHTML = `<div class="percentage-bar-wrapper">${barHTML}</div>`;
+            
+        } else {
+            // Placeholder default
+            detailContainer.innerHTML = '<p>Pilih warna menggunakan tombol (+) di Colour Palette.</p>';
+            barContainer.innerHTML = '<div class="bar-placeholder">Pilih warna untuk melihat mix bar.</div>';
+        }
+    }
+
+    // --- Fungsi Increment, Decrement, Reset (TETAP SAMA) ---
+    function increment(elementId) {
+        const element = document.getElementById(elementId);
+        let currentValue = parseInt(element.textContent);
+        element.textContent = currentValue + 1;
+        updateMix(); 
+    }
+
+    function decrement(elementId) {
+        const element = document.getElementById(elementId);
+        let currentValue = parseInt(element.textContent);
+       
+        if (currentValue > 0) {
+            element.textContent = currentValue - 1;
+        }
+        updateMix(); 
+    }
+    
+    function resetMix() {
+        const amountElements = document.querySelectorAll('.amountNumber');
+        amountElements.forEach(element => {
+            element.textContent = 0;
+        });
+        updateMix();
+    }
+
+    // Fungsi Zoom In
+function zoomIn() {
+    zoomLevel += ZOOM_FACTOR;
+    updateMix();
+}
+
+// Fungsi Zoom Out
+function zoomOut() {
+    if (zoomLevel > ZOOM_FACTOR) { // Batas minimum zoom
+        zoomLevel -= ZOOM_FACTOR;
+        updateMix();
+    }
+}
+
+    document.addEventListener('DOMContentLoaded', updateMix);
+
+
+
+    // --- FUNGSI SAVE AS PDF ---
+function getMixDataForReport() {
+    alert("Fungsi 'Save as PDF' memerlukan library seperti jsPDF atau html2canvas.");
+    
+    // 1. Ambil Data Form (opsional)
+    const projectName = document.getElementById('project-name').value;
+    const location = document.getElementById('location').value;
+    const area = document.getElementById('area').value;
+    const depth = document.getElementById('depth').value;
+    const notes = document.getElementById('notes').value;
+    
+    // 2. Ambil Data Mix (sudah ada di fungsi updateMix())
+    // Anda harus menjalankan updateMix() dan menggunakan variabel global 
+    // atau mengambil data dari DOM mix-results-list.
+    
+    // 3. Konversi ke PDF
+    // (Diperlukan kode dari library eksternal di sini)
+    
+    console.log("Mencoba menyimpan proyek:", { projectName, location, area, depth });
+}
+
+patternImage.onload = () => {
+    // Jalankan inisialisasi mix hanya setelah gambar latar dimuat
+    document.addEventListener('DOMContentLoaded', updateMix);
+};
+
+// --- FUNGSI UTAMA UNTUK MENGHASILKAN LAPORAN PDF ---
+
+async function saveProjectAsPDF() {
+    
+    // --- 1. INISIALISASI & PERIKSA DATA ---
+    const { jsPDF } = window.jspdf;
+    // PENTING: Inisialisasi doc di awal
+    const doc = new jsPDF('p', 'mm', 'a4'); 
+    const margin = 15;
+    let y_pos = 0; 
+    
+    // Panggil fungsi bantu untuk mendapatkan data mix
+    const mixData = getMixDataForReport(); 
+
+    if (mixData.length === 0) {
+        alert("Pilih setidaknya satu warna untuk membuat Laporan Mix.");
+        return; 
+    }
+
+    // Ambil Data Proyek dan Hitung Total
+    const projectName = document.getElementById('project-name').value || 'Untitled Project';
+    const location = document.getElementById('location').value || 'N/A';
+    const area = document.getElementById('area').value || '0';
+    const depth = document.getElementById('depth').value || 'N/A';
+    const totalParts = mixData.reduce((sum, item) => sum + item.amount, 0);
+
+    // Variabel yang dibutuhkan
+    const tagline = '';
+    const logoUrl = 'logoRugonal.png';// Pastikan Anda mendefinisikan ini di scope global
+    
+
+    // --- 2. HEADER & BACKGROUND HALAMAN 1 ---
+    
+    // Background Halaman 1
+    addBackgroundPattern(doc); 
+    
+    // Header Logo & Tagline (Menggunakan ukuran yang sudah dikonversi: W 53mm, H 14mm)
+    y_pos = 10;
+    try {
+        const logoWidth = 53; 
+        const logoHeight = 14; 
+        const logoX = (210 / 2) - (logoWidth / 2); 
+        
+        doc.addImage(logoUrl, 'PNG', logoX, 10, logoWidth, logoHeight);
+        y_pos = 10 + logoHeight + 3;
+    } catch (e) {
+        console.error("Error adding logo to PDF:", e);
+        y_pos += 27; // Beri ruang jika logo gagal
+    }
+    
+    // Tagline
+    doc.setTextColor(38, 47, 65); 
+    doc.setFontSize(10);
+    doc.setFont('Helvetica');
+    doc.text(tagline, (210 / 2), y_pos, { align: 'center' }); 
+    y_pos += 8;
+    
+    // Garis Pemisah
+    doc.setLineWidth(0.2);
+    doc.line(margin, y_pos, 210 - margin, y_pos); 
+    y_pos += 10; 
+
+    // --- 3. PROJECT DETAILS ---
+    doc.setFontSize(14);
+    doc.setFont('Helvetica', 'Bold');
+    doc.text('Project Details', margin, y_pos);
+    y_pos += 8;
+    
+    // Teks Proyek
+    doc.setFontSize(10);
+    doc.setFont('Helvetica');
+    doc.text(`Project Name: ${projectName}`, margin, y_pos);
+    doc.text(`Area: ${area} m²`, margin + 100, y_pos);
+    y_pos += 6;
+    doc.text(`Depth: ${depth} mm`, margin + 100, y_pos);
+    y_pos += 6;
+    
+    const locationText = `Location: ${location}`;
+    const maxWidth = 180;
+    const locationLines = doc.splitTextToSize(locationText, maxWidth);
+    doc.text(locationLines, margin, y_pos);
+    y_pos += (locationLines.length * 5) + 10;
+    
+    // --- 4. CAPTURE VISUAL (Granular Mix Preview) ---
+    doc.setFontSize(14);
+    doc.setFont('Helvetica', 'Bold');
+    doc.text('Granular Mix Preview', margin, y_pos);
+    y_pos += 5;
+    
+    try {
+        const canvasElement = document.getElementById('granule-canvas');
+        if (canvasElement && canvasElement.width > 0 && canvasElement.height > 0) {
+            const canvasImg = await html2canvas(canvasElement, { scale: 2 });
+            const imgData = canvasImg.toDataURL('image/jpeg', 0.9);
+            const imgWidth = 180; 
+            const imgHeight = (canvasElement.height * imgWidth) / canvasElement.width;
+            
+            doc.addImage(imgData, 'JPEG', margin, y_pos, imgWidth, imgHeight);
+            y_pos += imgHeight + 10;
+        }
+    } catch (e) {
+        doc.text('Error capturing granular visual. Please check console.', margin, y_pos + 5);
+        y_pos += 15;
+        console.error("PDF Generation Error (Canvas Capture):", e);
+    }
+
+    // --- 5. HALAMAN BARU UNTUK SPESIFIKASI WARNA ---
+    
+    doc.addPage();
+    addBackgroundPattern(doc); 
+
+    y_pos = 20; 
+    doc.setFontSize(14);
+    doc.setFont('Helvetica', 'Bold');
+    doc.text('Colour Specification', margin, y_pos);
+    y_pos += 5;
+    
+    // Siapkan data untuk autoTable
+    const tableHeaders = [['Colour', 'Code', '%', 'Parts']];
+    const tableData = mixData.map(item => [
+        item.name,
+        item.code,
+        `${item.percentage}%`,
+        item.amount.toString(), // Pastikan dikirim sebagai string
+     // Kolom Swatch
+    ]);
+
+    doc.autoTable({
+        head: tableHeaders,
+        body: tableData,
+        startY: y_pos + 5,
+        theme: 'grid',
+        headStyles: { fillColor: [240, 240, 240], textColor: [0, 0, 0] },
+        styles: { fontSize: 10, cellPadding: 3 },
+        margin: { left: margin, right: margin },
+        columnStyles: {
+            0: { cellWidth: 35 }, // Colour
+            1: { cellWidth: 20 }, // Code
+        },
+        didDrawCell: (data) => {
+            // Gambar Swatch Warna di kolom terakhir (index 4)
+        }
+    });
+
+    // --- 6. RINGKASAN & FOOTER ---
+    y_pos = doc.autoTable.previous.finalY + 10;
+    
+    doc.setFontSize(10);
+    doc.setFont('Helvetica', 'Bold');
+    doc.text(`Total Parts: ${totalParts}`, margin, y_pos);
+    y_pos += 5;
+    
+    // Footer Page Numbering (harus diulang di setiap halaman jika halaman bertambah)
+    doc.setFontSize(8);
+    const totalPages = doc.internal.pages.length - 1; // Jumlah halaman yang diisi
+    for (let i = 1; i <= totalPages; i++) {
+        doc.setPage(i);
+        doc.text(`Page ${i} of ${totalPages}`, 210 - margin - 15, 290);
+    }
+    
+    doc.setPage(1); // Kembali ke halaman terakhir untuk menyimpan
+
+    doc.save(`Colour_Mix_Report_${projectName.replace(/\s/g, '_')}.pdf`);
+}
+
+
+// --- FUNGSI BANTUAN UNTUK MENGAMBIL DATA MIX DARI DOM ---
+// Anda harus memastikan fungsi ini membaca data mix yang benar dari DOM
+// --- FUNGSI getMixDataForReport YANG BENAR (menggunakan logika dari updateMix) ---
+function getMixDataForReport() {
+    const data = [];
+    const itemElements = document.querySelectorAll('.paletteItemFocus');
+    const totalAmount = document.getElementById('total-amount-value').textContent;
+    const totalAmountInt = parseInt(totalAmount) || 1;
+
+    itemElements.forEach(item => {
+        const amountElement = item.querySelector('.amountNumber');
+        const amount = parseInt(amountElement.textContent);
+
+        if (amount > 0) {
+            const colorName = item.querySelector('.colorName').textContent;
+            const colorCode = item.querySelector('.colorCode').textContent;
+            const colorBlock = item.querySelector('.colorPreviewWithAmount');
+            const hexColor = colorBlock.style.backgroundColor; 
+            
+            const percentage = (amount / totalAmountInt) * 100;
+
+            data.push({
+                name: colorName,
+                code: colorCode,
+                amount: amount,
+                hex: hexColor,
+                percentage: percentage.toFixed(0) 
+            });
+        }
+    });
+    return data; // KUNCI: Harus mengembalikan data array
+}
+
+const PATTERN_OPACITY = 1; //
+
+function addBackgroundPattern(doc) { 
+    // patternImage diakses dari scope global
+    if (!patternImage.complete || patternImage.naturalWidth === 0) {
+        console.warn("Pattern image not yet loaded or failed to load.");
+        return;
+    }
+
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+    
+    const patternWidth = 20; 
+    const patternHeight = 20; 
+    const repeatX = Math.ceil(pageWidth / patternWidth);
+    const repeatY = Math.ceil(pageHeight / patternHeight);
+
+    // KUNCI: Membuat objek Graphics State untuk transparansi
+    const gs = new window.jspdf.GState({ opacity: PATTERN_OPACITY });
+    
+    doc.saveGraphicsState();
+    doc.setGState(gs); 
+    
+    for (let x = 0; x < repeatX; x++) {
+        for (let y = 0; y < repeatY; y++) {
+            doc.addImage(
+                patternImage, 
+                'PNG', 
+                x * patternWidth, 
+                y * patternHeight, 
+                patternWidth, 
+                patternHeight
+            );
+        }
+    }
+    
+    doc.restoreGraphicsState(); 
+}
+
+
+</script>
+    
+</body>
+</html>

@@ -1,0 +1,661 @@
+@font-face {
+    font-family: Satoshi;
+    src: url(Satoshi-Bold.otf);
+}
+
+body {
+    background-color: rgb(255, 255, 255);
+   
+    padding: 0;
+}
+
+.bannerMix{
+    font-family: Satoshi;
+    font-size: large;
+    display: flex;
+}
+
+#canvas-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Atur tampilan teks di tengah */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    background-color: #f0f0f0; /* Latar belakang abu-abu muda saat kosong */
+    color: #888;
+    font-size: 1.1em;
+    font-weight: bold;
+    z-index: 5; /* Pastikan di atas canvas saat kosong */
+}
+
+.logoRugonal{
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.logoRugonal img{
+    width: 250px;
+    margin-bottom: 30px;
+    margin-top: 10px;
+}
+
+.bannerMix {
+    width: 100%;
+    height: 193px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    background-image: url("Banner\ MixnMatch.png");
+}
+
+.banner{
+    align-items: center;
+}
+
+h1{
+    color: white;
+    font-family: Satoshi, sans-serif;
+    
+    font-size: 50px;
+}
+
+
+.containerHalaman{
+    display: flex;
+    margin: auto;
+    flex-direction: column;
+   
+}
+
+.columnHasildanControl{
+    display: flex;
+    flex-direction: row;
+}
+
+.columnHasil{
+    padding-left: 40px;
+    padding-right: 44px;
+    min-width: 400px;
+}
+
+
+h3{
+    font-family: Satoshi, sans-serif;
+    font-size: 24px;
+}
+
+.columnControl{
+    flex: 1; 
+    background-color: var(--bg-light);
+    border-radius: 8px;
+    height: 100%; 
+    display: flex;
+    flex-direction: column;
+    max-height: 700px;
+}
+
+
+.colorPaletteGrid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(10px, 1fr));
+    padding-left: 8px;
+    gap: 10px 30px;
+    max-height: 636px;
+    overflow-y: auto;
+}
+
+
+
+
+
+/* --- Styling Item Palet Sesuai Screenshot --- */
+.paletteItemFocus {
+    /* Mengatur blok Kontrol dan blok Info menjadi horizontal */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0px;
+    gap: 5px;
+    background-color: white; /* Latar belakang item */
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    max-width: 200px;
+}
+
+/* Blok Kanan: Info Warna (Diposisikan Vertikal) */
+.colorTextInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; 
+    margin-top: 5px;
+    padding-left: 12px;
+    width: auto;
+}
+
+.colorTextInfo .colorCode{
+    white-space: nowrap;
+    padding-top: 4px;
+}
+
+.colorTextInfo .colorName {
+    font-size: 12px;
+    font-family: Satoshi, sans-serif; 
+    font-weight: 800; 
+    line-height: 1.2;
+    color: black;
+    white-space: nowrap;
+}
+
+.colorTextInfo .colorCode {
+    font-size: 12px;
+    font-family: Satoshi, sans-serif;
+    color: #555;
+    line-height: 1.2;
+}
+
+.total-mix-summary {
+    display: none;
+}
+
+
+.colorControls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50px;
+}
+
+
+.colorPreviewWithAmount {
+    width: 60px; /* Lebar yang tepat */
+    background-color: #FAF8E7; /* Warna Beige Muda */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 0;
+    border-radius: 4px 4px 0 0;
+    
+}
+
+.amountNumber {
+    font-size: 12px;
+    font-weight: bold;
+    color: rgb(255, 255, 255);
+    font-family: Satoshi, sans-serif;
+}
+
+/* Tombol Kontrol */
+.controlButtons {
+    display: flex;
+    width: 60px; /* Sama dengan lebar kotak di atas */
+}
+
+.controlButtons button {
+    flex-grow: 1;
+    padding: 5px 0;
+    border: 1px solid #CCC;
+    border-radius: 0;
+    background-color: #EFEFEF;
+    font-size: 12px;
+    font-weight: 800;
+}
+.btnControlMinus {
+    /* Atur hanya batas bawah untuk meniru tampilan "floating" */
+    border-radius: 0 0 0 4px; 
+    border-right: none;
+}
+
+.btnControlPlus {
+    /* Atur hanya batas bawah untuk meniru tampilan "floating" */
+    border-radius: 0 0 4px 0;
+}
+
+
+
+/* --- Styling Bilah Persentase Horizontal (Current Mix Bar) --- */
+
+#percentage-bar-horizontal {
+    margin-bottom: 20px;
+    font-family: Satoshi, sans-serif;
+}
+
+.percentage-bar-wrapper {
+    display: flex;
+    width: 100%;
+    height: 50px; 
+    overflow: hidden;
+    
+}
+
+.bar-placeholder {
+    width: 100%;
+    height: 35px;
+    background-color: #f0f0f0;
+    text-align: center;
+    line-height: 35px;
+    color: #888;
+    
+   
+}
+
+.bar-segment {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    font-size: 0.9em;
+    height: 100%;
+    /* Mencegah teks terpotong di tepi */
+    white-space: nowrap; 
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+   
+}
+
+.mix-results-list{
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+
+/* --- Styling Daftar Detail Item (Di Bawah Bar) --- */
+
+/* style.css - Tambahan/Koreksi untuk Tampilan Bilah Detail */
+
+/* Container Utama Daftar Detail */
+#mix-parameters-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+    font-family: Satoshi, sans-serif;
+    padding-right: 30px;
+    max-height: 200px;
+    overflow-y: auto;
+    margin-bottom: 30px;
+}
+
+/* Setiap Bilah Detail Item */
+.mix-result-item.detailed-item {
+    
+    display: flex;
+    align-items: center;
+    width: 100%; /* Memastikan item memenuhi lebar kontainer */
+    background-color: white; 
+    border: 1px solid #eee;
+    padding: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* Swatch Warna Kecil */
+.mix-swatch-detail {
+    width: 25px; /* Sedikit lebih besar */
+    height: 18px; /* Sedikit lebih kecil untuk bentuk persegi panjang */
+    margin-right: 15px;
+    border: 1px solid #ddd;
+    /* Kunci: Memastikan warna muncul (sudah dilakukan di JS, ini hanya styling) */
+}
+
+/* Teks Komposisi */
+.mix-name-detail {
+    font-weight: bold;
+    font-size: 14px; /* Sesuaikan ukuran font agar lebih terbaca */
+    color: #333;
+    flex-grow: 1; /* Biarkan teks mengambil sisa ruang */
+    white-space: nowrap; /* Mencegah pemotongan baris */
+}
+
+
+.control-actions {
+    padding: 10px 0px; 
+    border-top: 1px solid var(--border-color);
+    margin-top: 10px;
+    text-align: start;
+}
+
+#reset-mix-btn {
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    background-color: #019f09; 
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#reset-mix-btn:hover {
+    background-color: #06780f;
+}
+
+
+#granule-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%; /* Kunci agar memenuhi lebar kontainer */
+    height: 100%; /* Kunci agar memenuhi tinggi kontainer */
+    display: block;
+}
+
+.visual-output-sample {
+    width: 610px;
+    padding-bottom: 100%; 
+    flex-grow: 0; 
+    position: relative;
+    overflow: hidden; 
+    position: relative; /* KUNCI: Untuk memposisikan anak absolut */
+    overflow: hidden;
+}
+
+.visual-placeholder-text{
+    font-family: Satoshi;
+}
+
+
+.zoom-controls-overlay {
+    /* Kunci 1: Pemosisian Absolut di atas Canvas */
+    position: absolute;
+    top: 10px; 
+    right: 10px; 
+    z-index: 20; 
+    
+    /* Kunci 2: Tata Letak Vertikal */
+    display: flex;
+    flex-direction: row; 
+    
+    /* Border Pembungkus */
+    
+   
+    overflow: hidden; 
+}
+
+.zoom-controls-overlay button {
+    padding: 5px 10px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #333;
+    cursor: pointer;
+    
+    /* Reset styling default */
+    border: none; 
+    margin: 0; 
+    border-radius: 0;
+}
+
+
+
+
+
+/* --- Project Details Form Styling --- */
+
+.project-details-form-wrapper {
+    font-family: Satoshi;
+    /* Atur margin/padding agar sejajar dengan konten di atasnya */
+}
+
+.project-details-card {
+    background-color: white;
+    padding: 40px;
+}
+
+.project-details-card h3 {
+    font-size: 1.4em;
+    font-weight: 800;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+}
+
+/* Tata Letak 2 Kolom */
+.form-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    flex: 1; /* Agar setiap group mengambil setengah lebar */
+}
+
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: var(--primary-color);
+    font-size: 0.9em;
+}
+
+/* Styling Input dan Select */
+.form-group input,
+.form-group select,
+.form-group textarea {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1em;
+    width: 100%;
+    box-sizing: border-box; /* Pastikan padding tidak menambah lebar */
+    font-family: Arial, sans-serif;
+}
+
+.form-group textarea {
+    resize: vertical;
+}
+
+/* Tombol Save as PDF */
+.save-pdf-btn {
+    width: 100%;
+    background-color: #019f09; 
+    color: white;
+    font-weight: bold;
+    font-size: 1.1em;
+    padding: 12px 20px;
+    border: none;
+   
+    cursor: pointer;
+    margin-top: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.2s;
+}
+
+.save-pdf-btn:hover {
+    background-color: #028708; 
+}
+
+
+/* --- Styling Section Rekomendasi --- */
+
+.recommendation-section-wrapper { 
+    margin: 40px auto; /* Margin atas/bawah */
+    padding: 0 40px;
+}
+
+.recommendation-title {
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 25px;
+    font-family: Satoshi, sans-serif;
+}
+
+/* Grid untuk 3 Kartu */
+.recommendation-card-grid {
+    display: grid;
+    /* Membuat 3 kolom dengan lebar yang sama */
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 20px; /* Jarak antar kartu */
+}
+
+/* Styling Setiap Kartu */
+.color-recommendation-card {
+    background-color: white;
+    border-radius: 8px;
+    /* Memberikan sedikit bayangan seperti pada gambar */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06); 
+    overflow: hidden;
+}
+
+/* Area Visual (Gambar Granul) */
+.recommendation-visual {
+    width: 100%;
+    /* Gunakan padding-top untuk rasio aspek gambar yang landscape */
+    padding-top: 40%; 
+    position: relative;
+}
+
+.visual-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Memastikan gambar menutupi area */
+}
+
+/* Area Teks Konten */
+.recommendation-content {
+    padding: 15px 20px;
+}
+
+.recommendation-name {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin: 0 0 5px 0;
+    font-family: Satoshi, sans-serif;
+}
+
+.recommendation-description {
+    font-size: 0.85em;
+    color: #555;
+    margin: 0;
+    line-height: 1.4;
+}
+
+
+
+/* --- MEDIA QUERIES UNTUK RESPONSIVITAS --- */
+
+
+/* Target Layar Tablet Menengah (Max Width: 1024px) */
+@media (max-width: 1024px) {
+    /* Meningkatkan lebar kolom kontrol agar 4 item muat */
+    .columnControl {
+        min-width: 350px; /* Lebar minimum untuk 4 kolom yang rapat */
+        padding: 20px 10px;
+    }
+    
+    .columnHasil {
+        /* Mengurangi padding di kolom hasil agar kontennya sejajar */
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    /* Mengubah Grid Palet dari 4 kolom yang sangat longgar menjadi 3 kolom yang rapat */
+    .colorPaletteGrid {
+        grid-template-columns: repeat(3, 1fr); 
+        gap: 10px 10px; /* Mengurangi jarak horizontal */
+    }
+}
+
+
+/* Target Perangkat Seluler (Max Width: 768px) */
+@media (max-width: 768px) {
+    
+    /* --- 1. LAYOUT UTAMA (Menumpuk Kolom) --- */
+    .containerHalaman {
+        flex-direction: column; 
+        padding: 0 5px; /* Kurangi padding halaman */
+    }
+
+    .columnHasildanControl {
+        /* Membuat container utama menjadi vertikal */
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .columnHasil {
+        width: 100%;
+        padding: 0;
+        min-width: auto;
+        order: 1; /* Visual muncul di atas */
+    }
+
+    .columnControl {
+        width: 100%;
+        min-width: auto;
+        max-height: none; /* Biarkan kontrol memanjang ke bawah */
+        padding: 10px;
+        order: 2; /* Kontrol muncul di bawah */
+    }
+    
+    /* --- 2. VISUALISASI CANVAS (Memenuhi Layar) --- */
+    .visual-output-sample {
+        width: 95vw !important; /* Mengisi hampir seluruh lebar viewport */
+        padding-bottom: 95vw !important; /* Menjaga rasio 1:1 */
+        margin: 10px auto;
+        height: auto;
+    }
+
+    /* --- 3. GRID PALET WARNA --- */
+    .colorPaletteGrid {
+        /* Mengubah Palet dari 4/3 kolom menjadi 2 kolom (atau 1) */
+        grid-template-columns: repeat(2, 1fr); 
+        gap: 8px 5px;
+        max-height: 500px; /* Batasi tinggi scroll di ponsel */
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+    
+    /* --- 4. KONTROL ITEM (Menjaga Kerapihan) --- */
+    .paletteItemFocus {
+        max-width: none;
+        gap: 5px;
+        padding: 3px 0;
+    }
+
+    .colorControls {
+        width: 45px; /* Sedikit menyusutkan kontrol jumlah */
+        height: 50px;
+    }
+    
+    .colorPreviewWithAmount, .controlButtons {
+        width: 100%; /* Memastikan tombol mengisi ruang 45px */
+    }
+    
+    /* --- 5. FORM DETAIL PROYEK --- */
+    .project-details-card {
+        padding: 15px;
+    }
+    .form-row {
+        flex-direction: column; /* Menumpuk input form */
+        gap: 10px;
+    }
+}
+
+/* Target Perangkat Sangat Sempit (Max Width: 480px) */
+@media (max-width: 480px) {
+    h1 {
+        font-size: 36px; /* Mengurangi ukuran header agar muat */
+    }
+    .colorPaletteGrid {
+        /* Mungkin perlu 1 kolom di layar yang sangat kecil */
+        grid-template-columns: 1fr; 
+    }
+    .recommendation-card-grid {
+        grid-template-columns: 1fr; /* 1 kolom untuk rekomendasi */
+    }
+}
