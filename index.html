@@ -1405,7 +1405,28 @@ async function saveProjectAsPDF() {
         '' // Pastikan dikirim sebagai string
      // Kolom Swatch
     ]);
-
+// --- FUNGSI PEMBANTU: Konversi RGB String ke Array [r, g, b] ---
+function parseRgbColor(colorString) {
+    if (colorString.startsWith('#')) {
+        // Jika sudah HEX (walaupun jarang terjadi)
+        const bigint = parseInt(colorString.slice(1), 16);
+        const r = (bigint >> 16) & 255;
+        const g = (bigint >> 8) & 255;
+        const b = bigint & 255;
+        return [r, g, b];
+    }
+    
+    // Jika formatnya adalah 'rgb(r, g, b)' (paling umum)
+    const matches = colorString.match(/\d+/g);
+    if (matches && matches.length >= 3) {
+        return [
+            parseInt(matches[0]),
+            parseInt(matches[1]),
+            parseInt(matches[2])
+        ];
+    }
+    return [0, 0, 0]; // Default ke hitam jika gagal
+}
     doc.autoTable({
         head: tableHeaders,
         body: tableData,
@@ -1423,10 +1444,11 @@ async function saveProjectAsPDF() {
             if (data.section === 'body' && data.column.index === 4) { // UBAH INDEX MENJADI 4
                 const colorItem = mixData[data.row.index];
                 
-                // Ambil warna (Hapus 'rgb' jika ada)
-                let colorHex = colorItem.hex.startsWith('rgb') ? '#000000' : colorItem.hex;
-
-                doc.setFillColor(colorHex);
+                // KUNCI: Konversi warna dari string (rgb/hex) menjadi Array [r, g, b]
+                const rgbArray = parseRgbColor(colorItem.hex);
+                
+                doc.setFillColor(rgbArray[0], rgbArray[1], rgbArray[2]);
+                
                 // Gambar kotak (x, y, lebar, tinggi) di tengah sel
                 doc.rect(data.cell.x + 4, data.cell.y + 1, 10, 6, 'F'); 
             }
