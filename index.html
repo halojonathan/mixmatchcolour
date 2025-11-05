@@ -14,7 +14,7 @@
 <div class="logoRugonal">
     <a href="https://www.rugonal.com/">
     <img src="logoRugonal.png">
-        </a>
+    </a>
 </div>
 <div class="bannerMix">
         <h1>Mix and Match Colour</h1>
@@ -920,10 +920,28 @@
             </div>
         </div>
 
-        
+        <div class="color-recommendation-card">
+            <div class="recommendation-visual">
+                <img src="pumpkin-orange.png" alt="Pumpkin Orange Granule Mix" class="visual-image">
+            </div>
+            <div class="recommendation-content">
+                <h4 class="recommendation-name">Pumpkin Orange</h4>
+                <p class="recommendation-description">Rich autumn-inspired orange perfect for seasonal themes and warm environments.</p>
+            </div>
+        </div>
+
+        <div class="color-recommendation-card">
+            <div class="recommendation-visual">
+                <img src="pumpkin-orange.png" alt="Pumpkin Orange Granule Mix" class="visual-image">
+            </div>
+            <div class="recommendation-content">
+                <h4 class="recommendation-name">Pumpkin Orange</h4>
+                <p class="recommendation-description">Rich autumn-inspired orange perfect for seasonal themes and warm environments.</p>
+            </div>
+        </div>
 
     </div>
-</section> 
+</section>
 
 
 
@@ -932,6 +950,7 @@
 
 
 <script>
+    const PATTERN_OPACITY = 1;
     
     const RUGONAL_LOGO_URL = 'logoRugonal.png';
 const watermarkImage = new Image(); 
@@ -1377,12 +1396,13 @@ async function saveProjectAsPDF() {
     y_pos += 5;
     
     // Siapkan data untuk autoTable
-    const tableHeaders = [['Colour', 'Code', '%', 'Parts']];
+    const tableHeaders = [['Colour', 'Code', '%', 'Parts', 'Swatch']];
     const tableData = mixData.map(item => [
         item.name,
         item.code,
         `${item.percentage}%`,
-        item.amount.toString(), // Pastikan dikirim sebagai string
+        item.amount.toString(),
+        '' // Pastikan dikirim sebagai string
      // Kolom Swatch
     ]);
 
@@ -1396,10 +1416,20 @@ async function saveProjectAsPDF() {
         margin: { left: margin, right: margin },
         columnStyles: {
             0: { cellWidth: 35 }, // Colour
-            1: { cellWidth: 20 }, // Code
+            1: { cellWidth: 20 },
+            4: { cellWidth: 15 } // Code
         },
         didDrawCell: (data) => {
-            // Gambar Swatch Warna di kolom terakhir (index 4)
+            if (data.section === 'body' && data.column.index === 4) { // UBAH INDEX MENJADI 4
+                const colorItem = mixData[data.row.index];
+                
+                // Ambil warna (Hapus 'rgb' jika ada)
+                let colorHex = colorItem.hex.startsWith('rgb') ? '#000000' : colorItem.hex;
+
+                doc.setFillColor(colorHex);
+                // Gambar kotak (x, y, lebar, tinggi) di tengah sel
+                doc.rect(data.cell.x + 4, data.cell.y + 1, 10, 6, 'F'); 
+            }
         }
     });
 
@@ -1458,7 +1488,7 @@ function getMixDataForReport() {
     return data; // KUNCI: Harus mengembalikan data array
 }
 
-const PATTERN_OPACITY = 1; //
+ //
 
 function addBackgroundPattern(doc) { 
     // patternImage diakses dari scope global
