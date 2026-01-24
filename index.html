@@ -920,26 +920,6 @@
             </div>
         </div>
 
-        <!-- <div class="color-recommendation-card">
-            <div class="recommendation-visual">
-                <img src="pumpkin-orange.png" alt="Pumpkin Orange Granule Mix" class="visual-image">
-            </div>
-            <div class="recommendation-content">
-                <h4 class="recommendation-name">Pumpkin Orange</h4>
-                <p class="recommendation-description">Rich autumn-inspired orange perfect for seasonal themes and warm environments.</p>
-            </div>
-        </div>
-
-        <div class="color-recommendation-card">
-            <div class="recommendation-visual">
-                <img src="pumpkin-orange.png" alt="Pumpkin Orange Granule Mix" class="visual-image">
-            </div>
-            <div class="recommendation-content">
-                <h4 class="recommendation-name">Pumpkin Orange</h4>
-                <p class="recommendation-description">Rich autumn-inspired orange perfect for seasonal themes and warm environments.</p>
-            </div>
-        </div> -->
-
     </div>
 </section>
 
@@ -950,607 +930,253 @@
 
 
 <script>
-    const PATTERN_OPACITY = 1;
-    
-    const RUGONAL_LOGO_URL = 'logoRugonal.png';
-const watermarkImage = new Image(); 
-watermarkImage.src = RUGONAL_LOGO_URL;
+        // --- KONSTANTA & STATE ---
+        const CANVAS_ID = 'granule-canvas';
+        const GRID_COUNT = 100; // 100x100 = 10.000 biji
+        const ZOOM_FACTOR = 0.1;
+        let zoomLevel = 1.0;
 
-function drawWatermark(ctx, width, height) {
-    // Pastikan gambar sudah dimuat
-    if (!watermarkImage.complete) {
-        console.warn("Watermark logo not fully loaded.");
-        return; 
-    }
+        const watermarkImage = new Image();
+        watermarkImage.src = 'logoRugonal.png';
+        const patternImage = new Image();
+        patternImage.src = 'pattern.png';
 
-    const numRepeats = 3; // Jumlah pengulangan vertikal
-    const logoBaseWidth = 300; // Lebar dasar yang diinginkan (px)
-
-    
-    const ratio = watermarkImage.naturalHeight / watermarkImage.naturalWidth;
-    const logoH = logoBaseWidth * ratio; // Hasilnya sekitar 44.44px
-    // Hitung Opasitas (Gunakan Global Alpha)
-    ctx.globalAlpha = 0.8; // Atur opasitas menjadi 15% (transparan)
-    
-    const logoW = logoBaseWidth; 
-    
-    const startY = height * 0.10; // Mulai di 15% dari atas
-    const spacing = height * 0.30; // Jarak antar logo (30% dari tinggi)
-    
-    ctx.save(); // Simpan state canvas
-
-    // Loop untuk 3 Logo
-    for (let i = 0; i < numRepeats; i++) {
-        const x = (width / 2) - (logoW / 2); // Rata tengah horizontal
-        const y = startY + (i * spacing);
-        
-        // Menggambar gambar logo
-        ctx.drawImage(watermarkImage, x, y, logoW, logoH);
-    }
-    
-    ctx.restore(); // Kembalikan state canvas (termasuk opacity)
-    ctx.globalAlpha = 1.0; // Reset opacity ke normal setelah menggambar watermark
+       /**
+ * Generator angka acak berbasis SEED (LGC)
+ * Memastikan hasil "Random" yang sama setiap kali fungsi dipanggil
+ */
+function seededRandom(seed) {
+    const x = Math.sin(seed) * 10000;
+    return x - Math.floor(x);
 }
 
-    const patternImage = new Image(); // Deklarasikan di sini
-patternImage.src = 'pattern.png';
-    
-    let zoomLevel = 1.0; 
-const ZOOM_FACTOR = 0.1; // Seberapa besar zoom berubah
-let viewOffsetX = 0; // Posisi X pusat pandangan (untuk Pan)
-let viewOffsetY = 0; // Posisi Y pusat pandangan (untuk Pan)
-    const NUM_POINTS = 50000; // Jumlah total "biji" yang akan digambar
-    const CANVAS_ID = 'granule-canvas';
-
-    // --- FUNGSI UTAMA UNTUK MENGGAMBAR BUTIRAN 2D ---
-    function drawGranulesCanvas(mixData, totalAmount) {
-       const canvas = document.getElementById(CANVAS_ID);
-        const ctx = canvas.getContext('2d');
-
-        const placeholder = document.getElementById('canvas-placeholder');
-        
-        // KOREKSI UTAMA: Setel dimensi piksel internal Canvas
-        // Ambil lebar dan tinggi yang dihitung oleh CSS
-        canvas.width = canvas.clientWidth; 
-        canvas.height = canvas.clientHeight;
-        
-        const width = canvas.width;
-        const height = canvas.height;
-        
-        // Bersihkan canvas
-        ctx.fillStyle = '#0000';
-        ctx.fillRect(0, 0, width, height);
-
-        if (totalAmount === 0) {
-            ctx.fillStyle = '#f0f0f0';
-        ctx.fillRect(0, 0, width, height);
-        
-        if (placeholder) {
-            placeholder.style.display = 'flex'; // Tampilkan pesan
-        }
-            return;
-        }
-
-        if (placeholder) {
-        placeholder.style.display = 'none'; 
+/**
+ * Algoritma Fisher-Yates Shuffle dengan Seed
+ * Mengacak urutan warna di pool agar tersebar merata ke seluruh grid
+ */
+function seededShuffle(array, seed) {
+    let m = array.length, t, i;
+    while (m) {
+        i = Math.floor(seededRandom(seed++) * m--);
+        t = array[m]; 
+        array[m] = array[i]; 
+        array[i] = t;
     }
+    return array;
+}
 
+        function parseRgbColor(colorString) {
+            const matches = colorString.match(/\d+/g);
+            return matches ? [parseInt(matches[0]), parseInt(matches[1]), parseInt(matches[2])] : [0,0,0];
+        }
+
+        // --- DRAWING FUNCTIONS ---
+        function drawGranuleShape(ctx, x, y, radius, sides, seed) {
+            ctx.beginPath();
+            for (let i = 0; i < sides; i++) {
+                const angle = (Math.PI * 2 / sides) * i;
+                const wobble = Math.sin(seed + i) * (radius * 0.2);
+                const currRadius = radius + wobble;
+                const px = x + currRadius * Math.cos(angle);
+                const py = y + currRadius * Math.sin(angle);
+                i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+            }
+            ctx.closePath();
+            ctx.fill();
+            ctx.strokeStyle = "rgba(0,0,0,0.05)";
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+        }
+
+        function drawWatermark(ctx, width, height) {
+            if (!watermarkImage.complete) return;
+            ctx.save();
+            ctx.globalAlpha = 0.8;
+            const logoW = 300;
+            const logoH = logoW * (watermarkImage.naturalHeight / watermarkImage.naturalWidth);
+            for (let i = 0; i < 3; i++) {
+                const x = (width / 2) - (logoW / 2);
+                const y = (height * 0.1) + (i * height * 0.3);
+                ctx.drawImage(watermarkImage, x, y, logoW, logoH);
+            }
+            ctx.restore();
+        }
+
+        function drawGranulesCanvas(mixData, totalAmount) {
+    const canvas = document.getElementById(CANVAS_ID);
+    const ctx = canvas.getContext('2d');
+    const placeholder = document.getElementById('canvas-placeholder');
+
+    canvas.width = canvas.clientWidth;
+    canvas.height = canvas.clientHeight;
+    const { width, height } = canvas;
+
+    if (totalAmount === 0) {
+        ctx.fillStyle = '#f5f5f5'; 
+        ctx.fillRect(0, 0, width, height);
+        if (placeholder) placeholder.style.display = 'flex';
+        return;
+    }
+    if (placeholder) placeholder.style.display = 'none';
+
+    ctx.save();
+    // Zoom & Pan Center
     ctx.translate(width / 2, height / 2);
-    
-    // 2. Terapkan skala zoom
     ctx.scale(zoomLevel, zoomLevel);
-    
-    // 3. Pindahkan pusat koordinat kembali
     ctx.translate(-width / 2, -height / 2);
 
-    // [Isi Latar Belakang]
-    ctx.fillStyle = mixData[0].hex; 
-    ctx.fillRect(0, 0, width, height);
+    const totalBiji = GRID_COUNT * GRID_COUNT; // 10.000
+    const cellSize = width / GRID_COUNT;
 
-    ctx.fillStyle = mixData[0].hex; // Ambil warna pertama sebagai latar belakang dominan
-    ctx.fillRect(0, 0, width, height);
-
-
-        // 1. Siapkan Array Probabilitas
-        // Kita membuat array yang berisi daftar warna yang akan dipilih secara acak.
-        let probabilityArray = [];
-        mixData.forEach(data => {
-            // Hitung persentase dan konversi ke jumlah titik (agar mudah di loop)
-            const count = Math.round((data.amount / totalAmount) * NUM_POINTS);
-            for (let i = 0; i < count; i++) {
-                probabilityArray.push(data.hex);
-            }
-        });
-        
-        // Kocok array agar warna tersebar acak (simulasi pencampuran)
-        probabilityArray.sort(() => Math.random() - 0.5);
-
-        // 2. Gambar Ribuan "Biji" (Granule)
-        // --- DI DALAM FUNGSI drawGranulesCanvas(mixData, totalAmount) ---
-
-// ... (Kode untuk setup Canvas dan penentuan totalAmount tetap sama) ...
-
-        // 2. Gambar Ribuan "Biji" (Poligon Acak)
-        probabilityArray.forEach(hexColor => {
-            const baseHex = hexColor.includes('rgb') ? hexColor : hexColor.trim();
-            
-            const x = Math.random() * width;
-            const y = Math.random() * height;
-            
-            const radius = 2 + Math.random() * 1.5; // Radius dasar antara 2px hingga 3.5px
-            
-            // KUNCI BENTUK ACAK
-            const sides = 4 + Math.floor(Math.random() * 4); // Jumlah sisi acak (4 hingga 7 sisi)
-            const wobbleFactor = 0.5 + Math.random() * 0.5; // Faktor goyangan (0.5 hingga 1.0)
-
-            // --- Lapisan Warna Dasar (POLIGON TUNGGAL) ---
-            
-            // Setel warna dan gambar poligon
-            ctx.fillStyle = baseHex; 
-            
-            // Panggil fungsi gambar poligon
-            drawRandomPolygon(ctx, x, y, radius, sides, wobbleFactor); 
-        });
-
-        if (totalAmount > 0) {
-            drawWatermark(ctx, width, height);
-        }
-
-        ctx.setTransform(1, 0, 0, 1, 0, 0);
-    }
+    // 1. Siapkan Pool Warna berdasarkan rasio
+    let colorPool = [];
+    mixData.forEach(data => {
+        let count = Math.round((data.amount / totalAmount) * totalBiji);
+        for (let i = 0; i < count; i++) colorPool.push(data.hex);
+    });
+    while (colorPool.length < totalBiji) colorPool.push(mixData[0].hex);
     
-// ... (Sisa kode updateMix, inc, dec, dll.) ...);
+    // 2. ACAK WARNA (Gunakan seed tetap agar posisi warna tidak melompat)
+    // Angka 123 adalah kunci agar urutan acak selalu sama
+    seededShuffle(colorPool, 888);
 
-        if (totalAmount > 0) {
+    // 3. Render Grid 10.000 unit
+    for (let r = 0; r < GRID_COUNT; r++) {
+    for (let c = 0; c < GRID_COUNT; c++) {
+        const index = (r * GRID_COUNT) + c;
+        const color = colorPool[index];
+
+        // 1. Gunakan Seed yang lebih acak (mencampurkan r dan c)
+        // Ini kunci agar tidak terbentuk pola garis vertikal/horizontal
+        const seed = (r * 12.9898 + c * 78.233) % 1000;
+        
+        // 2. Perbesar Jitter (Simpangan)
+        // Kita biarkan biji melompat hingga 80% dari ukuran selnya
+        const jitterX = Math.sin(seed * 43758.5453) * (cellSize * 0.8);
+        const jitterY = Math.cos(seed * 12345.6789) * (cellSize * 0.8);
+
+        const centerX = (c * cellSize) + (cellSize / 2) + jitterX;
+        const centerY = (r * cellSize) + (cellSize / 2) + jitterY;
+
+        // 3. Ukuran Radius (Overlap)
+        // Dibuat sedikit lebih besar dari cellSize agar tidak ada celah putih
+        const radius = cellSize * 1.6; 
+        
+        // 4. Variasi Sisi (5-9 sisi)
+        const sides = 5 + Math.floor(seededRandom(seed) * 5);
+
+        ctx.fillStyle = color;
+        drawGranuleShape(ctx, centerX, centerY, radius, sides, seed);
+    }
+}
+    ctx.restore();
     drawWatermark(ctx, width, height);
 }
 
-        ctx.setTransform(1, 0, 0, 1, 0, 0);
-    
-    // --- FUNGSI PEMBANTU UNTUK MENGGAMBAR POLIGON ACAK ---
-function drawRandomPolygon(ctx, x, y, radius, sides, wobbleFactor) {
-    ctx.beginPath();
-    
-    // Iterasi setiap sisi poligon
-    for (let i = 0; i < sides; i++) {
-        // Sudut normal
-        const angle = (Math.PI * 2 / sides) * i;
-        
-        // Tambahkan goyangan acak (wobble) pada radius agar bentuknya tidak beraturan
-        const wobble = (Math.random() - 0.5) * wobbleFactor * radius; 
-        const r = radius + wobble; 
-        
-        // Hitung koordinat (x, y) baru untuk setiap titik sudut
-        const px = x + r * Math.cos(angle);
-        const py = y + r * Math.sin(angle);
+        // --- UI & LOGIC ---
+        function updateMix() {
+            const mixData = [];
+            let totalAmount = 0;
 
-        if (i === 0) {
-            ctx.moveTo(px, py); // Mulai bentuk
-        } else {
-            ctx.lineTo(px, py); // Gambar garis ke titik berikutnya
-        }
-    }
-    ctx.closePath();
-    ctx.fill();
-}
-    
-    // --- FUNGSI updateMix() YANG DIMODIFIKASI ---
-    function updateMix() {
-        const itemElements = document.querySelectorAll('.paletteItemFocus');
-        let totalAmount = 0;
-        let mixData = [];
+            document.querySelectorAll('.paletteItemFocus').forEach(item => {
+                const amount = parseInt(item.querySelector('.amountNumber').textContent);
+                if (amount > 0) {
+                    totalAmount += amount;
+                    mixData.push({
+                        name: item.querySelector('.colorName').textContent,
+                        code: item.querySelector('.colorCode').textContent,
+                        amount: amount,
+                        hex: item.querySelector('.colorPreviewWithAmount').style.backgroundColor
+                    });
+                }
+            });
 
-        itemElements.forEach(item => {
-            const amountElement = item.querySelector('.amountNumber');
-            const amount = parseInt(amountElement.textContent);
-            
-            const colorName = item.querySelector('.colorName').textContent;
-            const colorCode = item.querySelector('.colorCode').textContent;
-            const colorBlock = item.querySelector('.colorPreviewWithAmount');
-            const hexColor = colorBlock.style.backgroundColor; 
+            const barContainer = document.getElementById('percentage-bar-horizontal');
+            const paramContainer = document.getElementById('mix-parameters-container');
+            document.getElementById('total-amount-value').textContent = totalAmount;
 
-            if (amount > 0) {
-                totalAmount += amount;
-                mixData.push({
-                    name: colorName,
-                    code: colorCode,
-                    amount: amount,
-                    hex: hexColor
+            if (totalAmount > 0) {
+                let barHTML = '<div class="percentage-bar-wrapper">';
+                paramContainer.innerHTML = '';
+                mixData.forEach(data => {
+                    const pct = ((data.amount / totalAmount) * 100).toFixed(0);
+                    barHTML += `<div class="bar-segment" style="width:${pct}%; background:${data.hex}"><span>${pct}%</span></div>`;
+                    const item = document.createElement('div');
+                    item.className = 'mix-result-item detailed-item';
+                    item.innerHTML = `<span class="mix-swatch-detail" style="background:${data.hex}"></span> 
+                                      <span>${data.name}: ${pct}% (${data.amount} parts)</span>`;
+                    paramContainer.appendChild(item);
                 });
+                barContainer.innerHTML = barHTML + '</div>';
+            } else {
+                barContainer.innerHTML = '<div class="bar-placeholder">Pilih warna...</div>';
+                paramContainer.innerHTML = '<p>Pilih warna untuk melihat mix bar.</p>';
             }
-        });
+            drawGranulesCanvas(mixData, totalAmount);
+        }
 
-        // PENTING: Panggil fungsi menggambar 2D di sini
-        drawGranulesCanvas(mixData, totalAmount);
-        
-      
-        
-        const totalAmountDisplay = document.getElementById('total-amount-value');
-        const detailContainer = document.getElementById('mix-parameters-container');
-        const barContainer = document.getElementById('percentage-bar-horizontal');
-        
-        totalAmountDisplay.textContent = totalAmount;
-        detailContainer.innerHTML = '';
-        barContainer.innerHTML = '';
+        function increment(id) { 
+            const el = document.getElementById(id);
+            el.textContent = parseInt(el.textContent) + 1;
+            updateMix();
+        }
 
-        if (totalAmount > 0) {
+        function decrement(id) {
+            const el = document.getElementById(id);
+            const val = parseInt(el.textContent);
+            if (val > 0) { el.textContent = val - 1; updateMix(); }
+        }
+
+        function resetMix() {
+            document.querySelectorAll('.amountNumber').forEach(el => el.textContent = 0);
+            updateMix();
+        }
+
+        function zoomIn() { zoomLevel += ZOOM_FACTOR; updateMix(); }
+        function zoomOut() { if (zoomLevel > 0.5) { zoomLevel -= ZOOM_FACTOR; updateMix(); } }
+
+        // --- PDF EXPORT ---
+        async function saveProjectAsPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('p', 'mm', 'a4');
+            const total = parseInt(document.getElementById('total-amount-value').textContent);
             
-            let barHTML = '';
-            
-            mixData.forEach(data => {
-                const percentage = (data.amount / totalAmount) * 100;
-                const roundedPercentage = percentage.toFixed(0); 
-                
-                // --- A. Bangun Bilah Horizontal ---
-                barHTML += `
-                    <div class="bar-segment" style="width: ${percentage}%; background-color: ${data.hex};">
-                        <span>${data.name}&nbsp;${roundedPercentage}%</span> 
-                    </div>
-                `;
+            if (total === 0) return alert("Pilih warna dahulu!");
 
-                // --- B. Bangun Daftar Detail Item ---
-                const resultItem = document.createElement('div');
-                resultItem.className = 'mix-result-item detailed-item';
-                
-                resultItem.innerHTML = `
-                    <span class="mix-swatch-detail" style="background-color: ${data.hex};"></span>
-                    <span class="mix-name-detail">${data.name} (${data.code}): ${roundedPercentage}% (${data.amount} parts)</span>
-                `;
-                detailContainer.appendChild(resultItem);
+            const mixData = Array.from(document.querySelectorAll('.paletteItemFocus'))
+                .filter(it => parseInt(it.querySelector('.amountNumber').textContent) > 0)
+                .map(it => ({
+                    name: it.querySelector('.colorName').textContent,
+                    code: it.querySelector('.colorCode').textContent,
+                    amount: parseInt(it.querySelector('.amountNumber').textContent),
+                    hex: it.querySelector('.colorPreviewWithAmount').style.backgroundColor,
+                    percentage: ((parseInt(it.querySelector('.amountNumber').textContent) / total) * 100).toFixed(0)
+                }));
+
+            // Halaman 1
+            doc.setFontSize(18).text('RUBBER MIX REPORT', 105, 20, {align:'center'});
+            const canvas = document.getElementById(CANVAS_ID);
+            const imgData = canvas.toDataURL('image/jpeg', 0.8);
+            doc.addImage(imgData, 'JPEG', 15, 30, 180, 100);
+
+            // Tabel Detail
+            doc.autoTable({
+                startY: 140,
+                head: [['Colour', 'Code', '%', 'Parts', 'Swatch']],
+                body: mixData.map(d => [d.name, d.code, d.percentage+'%', d.amount, '']),
+                didDrawCell: (data) => {
+                    if (data.column.index === 4 && data.section === 'body') {
+                        const rgb = parseRgbColor(mixData[data.row.index].hex);
+                        doc.setFillColor(rgb[0], rgb[1], rgb[2]);
+                        doc.rect(data.cell.x + 2, data.cell.y + 2, 10, 5, 'F');
+                    }
+                }
             });
-            
-            barContainer.innerHTML = `<div class="percentage-bar-wrapper">${barHTML}</div>`;
-            
-        } else {
-            // Placeholder default
-            detailContainer.innerHTML = '<p>Pilih warna menggunakan tombol (+) di Colour Palette.</p>';
-            barContainer.innerHTML = '<div class="bar-placeholder">Pilih warna untuk melihat mix bar.</div>';
+
+            doc.save('Rugonal_Mix_Report.pdf');
         }
-    }
 
-    // --- Fungsi Increment, Decrement, Reset (TETAP SAMA) ---
-    function increment(elementId) {
-        const element = document.getElementById(elementId);
-        let currentValue = parseInt(element.textContent);
-        element.textContent = currentValue + 1;
-        updateMix(); 
-    }
-
-    function decrement(elementId) {
-        const element = document.getElementById(elementId);
-        let currentValue = parseInt(element.textContent);
-       
-        if (currentValue > 0) {
-            element.textContent = currentValue - 1;
-        }
-        updateMix(); 
-    }
-    
-    function resetMix() {
-        const amountElements = document.querySelectorAll('.amountNumber');
-        amountElements.forEach(element => {
-            element.textContent = 0;
-        });
-        updateMix();
-    }
-
-    // Fungsi Zoom In
-function zoomIn() {
-    zoomLevel += ZOOM_FACTOR;
-    updateMix();
-}
-
-// Fungsi Zoom Out
-function zoomOut() {
-    if (zoomLevel > ZOOM_FACTOR) { // Batas minimum zoom
-        zoomLevel -= ZOOM_FACTOR;
-        updateMix();
-    }
-}
-
-    document.addEventListener('DOMContentLoaded', updateMix);
-
-
-
-    // --- FUNGSI SAVE AS PDF ---
-function getMixDataForReport() {
-    alert("Fungsi 'Save as PDF' memerlukan library seperti jsPDF atau html2canvas.");
-    
-    // 1. Ambil Data Form (opsional)
-    const projectName = document.getElementById('project-name').value;
-    const location = document.getElementById('location').value;
-    const area = document.getElementById('area').value;
-    const depth = document.getElementById('depth').value;
-    const notes = document.getElementById('notes').value;
-    
-    // 2. Ambil Data Mix (sudah ada di fungsi updateMix())
-    // Anda harus menjalankan updateMix() dan menggunakan variabel global 
-    // atau mengambil data dari DOM mix-results-list.
-    
-    // 3. Konversi ke PDF
-    // (Diperlukan kode dari library eksternal di sini)
-    
-    console.log("Mencoba menyimpan proyek:", { projectName, location, area, depth });
-}
-
-patternImage.onload = () => {
-    // Jalankan inisialisasi mix hanya setelah gambar latar dimuat
-    document.addEventListener('DOMContentLoaded', updateMix);
-};
-
-// --- FUNGSI UTAMA UNTUK MENGHASILKAN LAPORAN PDF ---
-
-async function saveProjectAsPDF() {
-    
-    // --- 1. INISIALISASI & PERIKSA DATA ---
-    const { jsPDF } = window.jspdf;
-    // PENTING: Inisialisasi doc di awal
-    const doc = new jsPDF('p', 'mm', 'a4'); 
-    const margin = 15;
-    let y_pos = 0; 
-    
-    // Panggil fungsi bantu untuk mendapatkan data mix
-    const mixData = getMixDataForReport(); 
-
-    if (mixData.length === 0) {
-        alert("Pilih setidaknya satu warna untuk membuat Laporan Mix.");
-        return; 
-    }
-
-    // Ambil Data Proyek dan Hitung Total
-    const projectName = document.getElementById('project-name').value || 'Untitled Project';
-    const location = document.getElementById('location').value || 'N/A';
-    const area = document.getElementById('area').value || '0';
-    const depth = document.getElementById('depth').value || 'N/A';
-    const totalParts = mixData.reduce((sum, item) => sum + item.amount, 0);
-
-    // Variabel yang dibutuhkan
-    const tagline = '';
-    const logoUrl = 'logoRugonal.png';// Pastikan Anda mendefinisikan ini di scope global
-    
-
-    // --- 2. HEADER & BACKGROUND HALAMAN 1 ---
-    
-    // Background Halaman 1
-    addBackgroundPattern(doc); 
-    
-    // Header Logo & Tagline (Menggunakan ukuran yang sudah dikonversi: W 53mm, H 14mm)
-    y_pos = 10;
-    try {
-        const logoWidth = 53; 
-        const logoHeight = 14; 
-        const logoX = (210 / 2) - (logoWidth / 2); 
-        
-        doc.addImage(logoUrl, 'PNG', logoX, 10, logoWidth, logoHeight);
-        y_pos = 10 + logoHeight + 3;
-    } catch (e) {
-        console.error("Error adding logo to PDF:", e);
-        y_pos += 27; // Beri ruang jika logo gagal
-    }
-    
-    // Tagline
-    doc.setTextColor(38, 47, 65); 
-    doc.setFontSize(10);
-    doc.setFont('Helvetica');
-    doc.text(tagline, (210 / 2), y_pos, { align: 'center' }); 
-    y_pos += 8;
-    
-    // Garis Pemisah
-    doc.setLineWidth(0.2);
-    doc.line(margin, y_pos, 210 - margin, y_pos); 
-    y_pos += 10; 
-
-    // --- 3. PROJECT DETAILS ---
-    doc.setFontSize(14);
-    doc.setFont('Helvetica', 'Bold');
-    doc.text('Project Details', margin, y_pos);
-    y_pos += 8;
-    
-    // Teks Proyek
-    doc.setFontSize(10);
-    doc.setFont('Helvetica');
-    doc.text(`Project Name: ${projectName}`, margin, y_pos);
-    doc.text(`Area: ${area} m²`, margin + 100, y_pos);
-    y_pos += 6;
-    doc.text(`Depth: ${depth} mm`, margin + 100, y_pos);
-    y_pos += 6;
-    
-    const locationText = `Location: ${location}`;
-    const maxWidth = 180;
-    const locationLines = doc.splitTextToSize(locationText, maxWidth);
-    doc.text(locationLines, margin, y_pos);
-    y_pos += (locationLines.length * 5) + 10;
-    
-    // --- 4. CAPTURE VISUAL (Granular Mix Preview) ---
-    doc.setFontSize(14);
-    doc.setFont('Helvetica', 'Bold');
-    doc.text('Granular Mix Preview', margin, y_pos);
-    y_pos += 5;
-    
-    try {
-        const canvasElement = document.getElementById('granule-canvas');
-        if (canvasElement && canvasElement.width > 0 && canvasElement.height > 0) {
-            const canvasImg = await html2canvas(canvasElement, { scale: 2 });
-            const imgData = canvasImg.toDataURL('image/jpeg', 0.9);
-            const imgWidth = 180; 
-            const imgHeight = (canvasElement.height * imgWidth) / canvasElement.width;
-            
-            doc.addImage(imgData, 'JPEG', margin, y_pos, imgWidth, imgHeight);
-            y_pos += imgHeight + 10;
-        }
-    } catch (e) {
-        doc.text('Error capturing granular visual. Please check console.', margin, y_pos + 5);
-        y_pos += 15;
-        console.error("PDF Generation Error (Canvas Capture):", e);
-    }
-
-    // --- 5. HALAMAN BARU UNTUK SPESIFIKASI WARNA ---
-    
-    doc.addPage();
-    addBackgroundPattern(doc); 
-
-    y_pos = 20; 
-    doc.setFontSize(14);
-    doc.setFont('Helvetica', 'Bold');
-    doc.text('Colour Specification', margin, y_pos);
-    y_pos += 5;
-    
-    // Siapkan data untuk autoTable
-    const tableHeaders = [['Colour', 'Code', '%', 'Parts', 'Swatch']];
-    const tableData = mixData.map(item => [
-        item.name,
-        item.code,
-        `${item.percentage}%`,
-        item.amount.toString(),
-        '' // Pastikan dikirim sebagai string
-     // Kolom Swatch
-    ]);
-// --- FUNGSI PEMBANTU: Konversi RGB String ke Array [r, g, b] ---
-function parseRgbColor(colorString) {
-    if (colorString.startsWith('#')) {
-        // Jika sudah HEX (walaupun jarang terjadi)
-        const bigint = parseInt(colorString.slice(1), 16);
-        const r = (bigint >> 16) & 255;
-        const g = (bigint >> 8) & 255;
-        const b = bigint & 255;
-        return [r, g, b];
-    }
-    
-    // Jika formatnya adalah 'rgb(r, g, b)' (paling umum)
-    const matches = colorString.match(/\d+/g);
-    if (matches && matches.length >= 3) {
-        return [
-            parseInt(matches[0]),
-            parseInt(matches[1]),
-            parseInt(matches[2])
-        ];
-    }
-    return [0, 0, 0]; // Default ke hitam jika gagal
-}
-    doc.autoTable({
-        head: tableHeaders,
-        body: tableData,
-        startY: y_pos + 5,
-        theme: 'grid',
-        headStyles: { fillColor: [240, 240, 240], textColor: [0, 0, 0] },
-        styles: { fontSize: 10, cellPadding: 3 },
-        margin: { left: margin, right: margin },
-        columnStyles: {
-            0: { cellWidth: 35 }, // Colour
-            1: { cellWidth: 20 },
-            4: { cellWidth: 15 } // Code
-        },
-        didDrawCell: (data) => {
-            if (data.section === 'body' && data.column.index === 4) { // UBAH INDEX MENJADI 4
-                const colorItem = mixData[data.row.index];
-                
-                // KUNCI: Konversi warna dari string (rgb/hex) menjadi Array [r, g, b]
-                const rgbArray = parseRgbColor(colorItem.hex);
-                
-                doc.setFillColor(rgbArray[0], rgbArray[1], rgbArray[2]);
-                
-                // Gambar kotak (x, y, lebar, tinggi) di tengah sel
-                doc.rect(data.cell.x + 4, data.cell.y + 1, 10, 6, 'F'); 
-            }
-        }
-    });
-
-    // --- 6. RINGKASAN & FOOTER ---
-    y_pos = doc.autoTable.previous.finalY + 10;
-    
-    doc.setFontSize(10);
-    doc.setFont('Helvetica', 'Bold');
-    doc.text(`Total Parts: ${totalParts}`, margin, y_pos);
-    y_pos += 5;
-    
-    // Footer Page Numbering (harus diulang di setiap halaman jika halaman bertambah)
-    doc.setFontSize(8);
-    const totalPages = doc.internal.pages.length - 1; // Jumlah halaman yang diisi
-    for (let i = 1; i <= totalPages; i++) {
-        doc.setPage(i);
-        doc.text(`Page ${i} of ${totalPages}`, 210 - margin - 15, 290);
-    }
-    
-    doc.setPage(1); // Kembali ke halaman terakhir untuk menyimpan
-
-    doc.save(`Colour_Mix_Report_${projectName.replace(/\s/g, '_')}.pdf`);
-}
-
-
-// --- FUNGSI BANTUAN UNTUK MENGAMBIL DATA MIX DARI DOM ---
-// Anda harus memastikan fungsi ini membaca data mix yang benar dari DOM
-// --- FUNGSI getMixDataForReport YANG BENAR (menggunakan logika dari updateMix) ---
-function getMixDataForReport() {
-    const data = [];
-    const itemElements = document.querySelectorAll('.paletteItemFocus');
-    const totalAmount = document.getElementById('total-amount-value').textContent;
-    const totalAmountInt = parseInt(totalAmount) || 1;
-
-    itemElements.forEach(item => {
-        const amountElement = item.querySelector('.amountNumber');
-        const amount = parseInt(amountElement.textContent);
-
-        if (amount > 0) {
-            const colorName = item.querySelector('.colorName').textContent;
-            const colorCode = item.querySelector('.colorCode').textContent;
-            const colorBlock = item.querySelector('.colorPreviewWithAmount');
-            const hexColor = colorBlock.style.backgroundColor; 
-            
-            const percentage = (amount / totalAmountInt) * 100;
-
-            data.push({
-                name: colorName,
-                code: colorCode,
-                amount: amount,
-                hex: hexColor,
-                percentage: percentage.toFixed(0) 
-            });
-        }
-    });
-    return data; // KUNCI: Harus mengembalikan data array
-}
-
- //
-
-function addBackgroundPattern(doc) { 
-    // patternImage diakses dari scope global
-    if (!patternImage.complete || patternImage.naturalWidth === 0) {
-        console.warn("Pattern image not yet loaded or failed to load.");
-        return;
-    }
-
-    const pageWidth = doc.internal.pageSize.getWidth();
-    const pageHeight = doc.internal.pageSize.getHeight();
-    
-    const patternWidth = 20; 
-    const patternHeight = 20; 
-    const repeatX = Math.ceil(pageWidth / patternWidth);
-    const repeatY = Math.ceil(pageHeight / patternHeight);
-
-    // KUNCI: Membuat objek Graphics State untuk transparansi
-    const gs = new window.jspdf.GState({ opacity: PATTERN_OPACITY });
-    
-    doc.saveGraphicsState();
-    doc.setGState(gs); 
-    
-    for (let x = 0; x < repeatX; x++) {
-        for (let y = 0; y < repeatY; y++) {
-            doc.addImage(
-                patternImage, 
-                'PNG', 
-                x * patternWidth, 
-                y * patternHeight, 
-                patternWidth, 
-                patternHeight
-            );
-        }
-    }
-    
-    doc.restoreGraphicsState(); 
-}
-
-
-</script>
-    
+        document.addEventListener('DOMContentLoaded', updateMix);
+    </script>
 </body>
 </html>
